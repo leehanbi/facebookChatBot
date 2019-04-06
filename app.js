@@ -6,19 +6,19 @@ const request = require('request');
 const app = express();
 
 // 자신의 토큰 설정
-var PAGE_ACCESS_TOKEN = '';
+var PAGE_ACCESS_TOKEN = 'YOUR TOKEN';
 
 app.set('port', (process.env.PORT || 5000));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
     res.send('Hello world');
 })
 
 
-app.get('/webhook', function(req, res) {
+app.get('/webhook', (req, res) => {
     if (req.query['hub.verify_token'] === 'VERIFY_TOKEN') {
         res.send(req.query['hub.challenge']);
     }
@@ -26,7 +26,7 @@ app.get('/webhook', function(req, res) {
 })
 
 //페이스북 메신져
-app.post("/webhook", function(req, res) {
+app.post("/webhook", (req, res) => {
     console.log("WEBHOOK GET IT WORKS");
     var data = req.body;
     console.log(data);
@@ -95,6 +95,6 @@ function sendTextMessage(recipientId, message) {
     });
 }
 
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), ()=> {
     console.log('running on port', app.get('port'));
 })
