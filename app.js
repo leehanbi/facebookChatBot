@@ -6,7 +6,7 @@ const request = require('request');
 const app = express();
 
 // 자신의 토큰 설정
-var PAGE_ACCESS_TOKEN = 'YOUR TOKEN';
+var PAGE_ACCESS_TOKEN = '';
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -35,12 +35,12 @@ app.post("/webhook", (req, res) => {
     if (data.object == 'page') {
         // Iterate over each entry
         // There may be multiple if batched
-        data.entry.forEach(function(pageEntry) {
+        data.entry.forEach((pageEntry) => {
             var pageID = pageEntry.id;
             var timeOfEvent = pageEntry.time;
 
             // Iterate over each messaging event
-            pageEntry.messaging.forEach(function(messagingEvent) {
+            pageEntry.messaging.forEach((messagingEvent) => {
                 if (messagingEvent.optin) {
                     receivedAuthentication(messagingEvent);
                 } else if (messagingEvent.message) {
@@ -88,7 +88,7 @@ function sendTextMessage(recipientId, message) {
             recipient: { id: recipientId },
             message: { text: message }
         }
-    }, function(error, response, body) {
+    }, (error, response, body) => {
         if (error) {
             console.log('Error sending message: ' + response.error);
         }
